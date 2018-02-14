@@ -30,7 +30,7 @@
 
                     <footer>
                         <button name="%(report_for_module)d" type="action" string="Print" class="oe_highlight" onclick="window.open('sales_annexure_champion/static/src/customer_invoices.xlsx','_blank')"/>
-                        <a href="#" onclick="window.open('sales_annexure_champion/static/src/customer_invoices.xlsx','_blank')">Click To View Report</a>
+                        <!-- <a href="#" onclick="window.open('sales_annexure_champion/static/src/customer_invoices.xlsx','_blank')">Click To View Report</a> -->
                     </footer>
             </form>
 
@@ -39,7 +39,7 @@
         </record>
 
 
-    <record id="view_form_sales_annexure_champion_form" model="ir.ui.view"> 
+   <!--  <record id="view_form_sales_annexure_champion_form" model="ir.ui.view"> 
       <field name="name">view_form_sales_annexure_champion_form</field> 
       <field name="model">sales.annexure</field> 
       <field name="type">form</field> 
@@ -52,17 +52,17 @@
 
         </form> 
       </field> 
-    </record> 
+    </record>  -->
 
 
 
-    <record model="ir.actions.act_window" id="route_management_action">
+  <!--   <record model="ir.actions.act_window" id="route_management_action">
       <field name="name">sales Champion </field>
       <field name="res_model">sales.annexure</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_form_sales_annexure_champion_form"/>
-    </record>
+    </record> -->
 
 
 

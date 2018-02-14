@@ -58,7 +58,7 @@ class DailyFormTree(models.Model):
 	def get_wpl(self):
 		if self.product:
 			# self.qty_lit = self.qty_kg * self.product.product_receipe.wpl
-			self.qty_kg = self.qty_lit * self.product.product_receipe.wpl
+			self.qty_lit = self.qty_kg * self.product.product_receipe.wpl
 
 
 class DailyConsumeTree(models.Model):

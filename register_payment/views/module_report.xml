@@ -92,7 +92,7 @@
                                     <table width="100%">
                                         <tr>
                                             <th>DATE</th>
-                                            <th colspan="2">NAME AND ADDRESS OF SUPPLIER WITH S. TAX NO.</th>
+                                            <th colspan="3">NAME AND ADDRESS OF SUPPLIER WITH S. TAX NO.</th>
                                             <th>DESCRIPTION</th>
                                             <th>INVOICE NO.</th>
                                             <th>QUANTITY UNITS</th>
@@ -103,8 +103,7 @@
                                         </tr>
                                         <tr>
                                             <th>1</th>
-                                            <th>2</th>
-                                            <th>NTN-NO</th>
+                                            <th colspan="3">2</th>
                                             <th>3</th>
                                             <th>3A</th>
                                             <th>4</th>
@@ -118,11 +117,13 @@
 
                                             <tr>
                                                 <td class="space">
-                                                    <span t-esc="data.invoice_id.date_invoice"></span>
+                                                    <span t-esc="time.strftime('%d-%m-%Y',time.strptime(data.invoice_id.date_invoice,'%Y-%m-%d'))"></span>
                                                 </td>
                                                 <td>
                                                     <span t-esc="data.invoice_id.partner_id.name"></span>
-                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.invoice_id.partner_id.city"></span>
                                                 </td>
                                                 <td>
                                                     <span t-esc="data.invoice_id.vender_ntn"></span>
@@ -130,10 +131,11 @@
                                                 </td>
                                                 <td>
                                                     <span t-esc="data.product_id.name"></span>
+                                                    (<t t-esc="data.uom_id.name"/>)
                                                     
                                                 </td>
                                                 <td>
-                                                    <span t-esc="data.invoice_id.number"></span>
+                                                    <span t-esc="data.invoice_id.invoice_no"></span>
                                                     
                                                 </td>
                                                 <td>

@@ -2,6 +2,8 @@
 
 from odoo import models, fields, api
 from datetime import datetime, timedelta
+from odoo.exceptions import Warning, ValidationError
+
 # import sys
 # sys.setrecursionlimit(10000) 
 class taxes_champion(models.Model):
@@ -55,6 +57,7 @@ class AccountInvoiceBcube(models.Model):
 	date_invoice = fields.Date("date_invoice", required=True, readonly=False, select=True, default=lambda self: fields.date.today())
 	vender_ntn = fields.Char(string="Vender NTN No.")
 	sales_reg_no = fields.Char(string="Sales Tax Registeration No.")
+	invoice_no = fields.Char(string="Invoice No.")
 	payment_term = fields.Many2one('account.payment.term',string="Payment Term")
 
 	@api.one
@@ -99,8 +102,6 @@ class AccountInvoiceBcube(models.Model):
 			for tax in taxes.bcube_taxes_id:
 				if tax.id not in taxes_ids:
 					taxes_ids.append(tax.id)
-					print taxes_ids
-					print "oooooooooooooooooo"
 					
 					records.append({
 						'name':tax.name,
@@ -111,8 +112,7 @@ class AccountInvoiceBcube(models.Model):
 						})
 				
 			self.tax_line_ids = records
-			print records
-			print "mmmmmmmmmmmmmmmmmm"
+
 		for taxes in self.invoice_line_ids:
 			for tax in taxes.bcube_taxes_id:
 				unit_price = taxes.price_unit -(taxes.price_unit * (taxes.discount/100) )
@@ -120,12 +120,19 @@ class AccountInvoiceBcube(models.Model):
 				if self.tax_line_ids:
 					for line in self.tax_line_ids:
 						if line.name == tax.name:
-							print line.name
-							print tax.name
-							print "bbbbbbbbbbbbbbbbbb"
 							line.amount = line.amount + amount_tax
 		return res
-		# if self.type == "in_invoice":
+
+
+	@api.multi
+	def reset(self):
+		rec = self.env['account.move'].search([('ref','=',self.number)])
+		if rec.state != 'posted' and self.move_id.state != 'posted':
+			self.state = 'draft'
+		else:
+			raise  ValidationError('Cannot Send To Draft. First Unpost The Concerning Journal Enteries')
+
+
 
 class AccountInvoiceLineBcube(models.Model):
 	_inherit            = 'account.invoice.line'
@@ -134,6 +141,8 @@ class AccountInvoiceLineBcube(models.Model):
 		string='Taxes', domain=[('type_tax_use','!=','none'), '|', ('active', '=', False), ('active', '=', True)], oldname='invoice_line_tax_id')
 	bcube_amount_tax    = fields.Float(string = "Amount Tax")
 	amount_incl_tax    = fields.Float(string = "Amount Inc. of Sales Tax")
+	quantity = fields.Float(digits=(19,0))
+	price_unit = fields.Float(digits=(19,4))
 
 
 	@api.onchange('bcube_taxes_id','price_unit','quantity','discount')

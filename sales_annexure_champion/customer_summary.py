@@ -47,23 +47,13 @@ class RegionWiseReport(models.AbstractModel):
 		record_wizard_del = self.env['sales.annexure'].search([('id','!=',emp_list_max)])
 		record_wizard_del.unlink()
 
-		records = self.env['account.invoice'].search([('date_invoice','>=',record_wizard.form),('date_invoice','<=',record_wizard.to)])
-
-		# lisst = []
-		# for x in records:
-		#     if record_wizard.form <= x.date_invoice and record_wizard.to >= x.date_invoice:
-		#         lisst.append(x)
-
-
-
+		records = self.env['account.invoice'].search([('date_invoice','>=',record_wizard.form),('date_invoice','<=',record_wizard.to),('type','=','out_invoice')])
+		print records
+		print "kkkkkkkkkkkkkkkkkkkkkkkkk"
 
 
 			
 		self.sales_annexure(records)
-
-
-		
-	   
 
 
 		docargs = {
@@ -211,7 +201,7 @@ class RegionWiseReport(models.AbstractModel):
 		# 			raise
 		# dir_path = os.path.dirname(os.path.realpath(__file__))
 
-		workbook = xlsxwriter.Workbook("/home/odoo/odoo-dev/champion_paint/sales_annexure_champion/static/src/customer_invoices.xlsx")
+		workbook = xlsxwriter.Workbook("/home/nayyab/odoo10/projects/champion_new/sales_annexure_champion/static/src/customer_invoices.xlsx")
 		worksheet = workbook.add_worksheet()
 
 		main_heading = workbook.add_format({
@@ -278,10 +268,12 @@ class RegionWiseReport(models.AbstractModel):
 					if "Further" in x.name:
 						furt = x.amount
 				worksheet.write_string (row, col,str(count),main_data)
-				worksheet.write_string (row, col+1,line.partner_id.cp_ntn,main_data)
+				if line.partner_id.cp_ntn:
+					worksheet.write_string (row, col+1,line.partner_id.cp_ntn,main_data)
 				# worksheet.write_string (row, col+2,str(line.partner_id.cp_cnic),main_data)
 				worksheet.write_string (row, col+3,line.partner_id.name,main_data)
-				worksheet.write_string (row, col+4,line.partner_id.buyer_type,main_data)
+				if line.partner_id.buyer_type:
+					worksheet.write_string (row, col+4,line.partner_id.buyer_type,main_data)
 				worksheet.write_string (row, col+5,'Punjab',main_data)
 				worksheet.write_string (row, col+6,'SI',main_data)
 				worksheet.write_string (row, col+7,line.number,main_data)
@@ -311,9 +303,9 @@ class RegionWiseReport(models.AbstractModel):
 		# if  not "%s/static/src/customer_invoices.xlxs" % dir_path[:-8]:
 		#     os.system("mv  customer_invoices.xlxs %s/static/src/customer_invoices.xlxs" % dir_path[:-8])
 
-		# url = "customer_invoices.xlsx"
+		url = "/home/nayyab/odoo10/projects/champion_new/sales_annexure_champion/static/src/customer_invoices.xlsx"
 		# print "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-		# webbrowser.open(url)
+		webbrowser.open(url)
 		# print "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
 		# # # created_file = urllib.URLopener()
 		# # # created_file.retrieve(url, 'CustomerInvoice.xlsx')
@@ -323,3 +315,5 @@ class RegionWiseReport(models.AbstractModel):
 
 
 
+# set path of file at 306 and 204 line
+# set path of file at 306 and 204 line

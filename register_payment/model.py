@@ -41,9 +41,10 @@ class SampleDevelopmentReport(models.AbstractModel):
 
         record_wizard_del = self.env['reg.payment'].search([('id','!=',emp_list_max)])
         record_wizard_del.unlink()
-        date = record_wizard.date
+        date_from = record_wizard.date_from
+        date_to = record_wizard.date_to
 
-        records = self.env['account.invoice.line'].search([('invoice_id.type','=','in_invoice'),('invoice_id.date_invoice','=',record_wizard.date)])
+        records = self.env['account.invoice.line'].search([('invoice_id.type','=','in_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to)])
 
       
         count = 1

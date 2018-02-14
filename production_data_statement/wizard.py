@@ -22,13 +22,13 @@ from openerp import models, fields, api
 
 
 class RegionWiseDetail(models.Model):
-    _name = "reg.payment"
+    _name = "production.data"
 
     date_from = fields.Date("Date From",required=True)
     date_to = fields.Date("Date To",required=True)
 
 class regionWiseDetail(models.Model):
-    _inherit = "account.invoice"    
+    _inherit = "daily.production"    
 
     @api.multi
     def create_report(self):

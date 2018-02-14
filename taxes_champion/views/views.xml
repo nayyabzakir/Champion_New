@@ -64,6 +64,15 @@
             <xpath expr="//field[@name='reference']" position="after">
               <field name="payment_term"/>
             </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+              <field name="invoice_no"/>
+            </xpath>
+
+            <xpath expr="//button[@name='191']" position="after">
+              <button name="reset" type="object" string="Reset To Draft" class="oe_highlight" attrs="{'invisible':[('state','!=','paid')]}"/>
+            </xpath>
+
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="replace">
               <field name="bcube_taxes_id" widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','purchase'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
               <field name="bcube_amount_tax"/>
