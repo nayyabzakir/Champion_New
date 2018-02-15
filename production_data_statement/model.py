@@ -46,13 +46,13 @@ class SampleDevelopmentReport(models.AbstractModel):
 
         print date_from
 
-        invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to)])
+        invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to),('invoice_id.state','=','open')])
 
         records = self.env['daily.production.tree'].search([('date','>=',record_wizard.date_from),('date','<=',record_wizard.date_to)])
 
         open_records = self.env['daily.production.tree'].search([('date','<',record_wizard.date_from)])
 
-        open_invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','<',record_wizard.date_from)])
+        open_invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','<',record_wizard.date_from),('invoice_id.state','=','open')])
 
 
         def get_kg():
@@ -74,7 +74,8 @@ class SampleDevelopmentReport(models.AbstractModel):
             value = 0
             new = 0
             for x in invoices:
-                new = new + (x.quantity / x.product_id.product_receipe.wpl)
+                if x.product_id.product_receipe:
+                    new = new + (x.quantity / x.product_id.product_receipe.wpl)
             value = new
 
             return value
@@ -112,7 +113,8 @@ class SampleDevelopmentReport(models.AbstractModel):
             for x in open_records:
                 daily = daily + x.qty_kg
             for y in open_invoices:
-                inv = inv + (y.quantity / y.product_id.product_receipe.wpl)
+                if y.product_id.product_receipe:
+                    inv = inv + (y.quantity / y.product_id.product_receipe.wpl)
             value = daily - inv
 
             return value

@@ -47,7 +47,7 @@ class SampleDevelopmentReport(models.AbstractModel):
                 if data.discount:
                     numb = data.discount
 
-                return int(numb)
+            return int(numb)
 
         def size(product):
             products = self.env["product.product"].search([('id','=',product)])

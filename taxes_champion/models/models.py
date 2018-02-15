@@ -248,6 +248,12 @@ class ProductReceipeTree(models.Model):
 	receipe_tree = fields.Many2one('product.receipe')
 
 
+class DiscountAmount(models.Model):
+	_inherit  = 'product.category'
+
+	finish_good = fields.Boolean(string="Finished Goods")
+
+
 
 
 
