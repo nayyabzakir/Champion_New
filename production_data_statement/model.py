@@ -44,7 +44,6 @@ class SampleDevelopmentReport(models.AbstractModel):
         date_from = record_wizard.date_from
         date_to = record_wizard.date_to
 
-        print date_from
 
         invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to),('invoice_id.state','=','open')])
 
@@ -134,6 +133,7 @@ class SampleDevelopmentReport(models.AbstractModel):
             'inv_sub':inv_sub,
             'get_open_lit':get_open_lit,
             'get_open_kg':get_open_kg,
+            'date_from':date_from,
 
             }
 

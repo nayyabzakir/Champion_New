@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="ntn">
                                     <p><span class="solid">Tax Period</span>
-                                    <span class="liquid">11 2017</span></p>
+                                    <span class="liquid" t-esc="time.strftime('%m-%Y',time.strptime(date_from,'%Y-%m-%d'))"></span></p>
                                 </div>
                                 <p class="champion"><span class="solid">Name of Registered Person</span>
                                 <span class="liquid">Champion Paint Industries (Pvt) Limited, Hanjawal, Multan Road,  Lahore.</span></p>
@@ -129,36 +129,36 @@
 
                                         <td>
                                         <p><span class="solid">litters</span>
-                                        <span t-esc="'%.2f'%(get_open_lit())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_open_lit()))"></span></p>
                                         <p><span class="solid">Kgs</span>
-                                        <span t-esc="'%.2f'%(get_open_kg())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_open_kg()))"></span></p>
                                         </td>
 
                                         <td>
                                         <p><span class="solid">litters</span>
-                                        <span t-esc="'%.2f'%(get_lit())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_lit()))"></span></p>
                                         <p><span class="solid">Kgs</span>
-                                        <span t-esc="'%.2f'%(get_kg())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_kg()))"></span></p>
                                         </td>
                                         
                                         <td>
                                         <p><span class="solid">litters</span>
-                                        <span t-esc="'%.2f'%(inv_lit())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(inv_lit()))"></span></p>
                                         <p><span class="solid">Kgs</span>
-                                        <span t-esc="'%.2f'%(inv_kg())"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(inv_kg()))"></span></p>
                                         </td>
 
                                         <td>
-                                            <span t-esc="'%.2f'%(inv_sub())"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_sub()))"></span>
                                         </td>
 
                                         <td>
                                         <p><span class="solid">litters</span>
                                         <t t-set="close_lit" t-value="get_open_lit()+get_lit()-inv_lit()"/>
                                         <t t-set="close_kg" t-value="get_open_kg()+get_kg()-inv_kg()"/>
-                                        <span t-esc="'%.2f'%(close_lit)"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(close_lit))"></span></p>
                                         <p><span class="solid">Kgs</span>
-                                        <span t-esc="'%.2f'%(close_kg)"></span></p>
+                                        <span t-esc="'{0:,.2f}'.format(float(close_kg))"></span></p>
                                         </td>
 
                                     </tr>
@@ -170,20 +170,20 @@
                                         <td>68000</td>
                                         <td>
                                             <t t-set="open_tot" t-value="get_open_lit()+get_open_kg()"/>
-                                            <span t-esc="'%.2f'%(open_tot)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(open_tot))"></span>
                                         </td>
                                         <td>
                                             <t t-set="prod_tot" t-value="get_lit()+get_kg()"/>
-                                            <span t-esc="'%.2f'%(prod_tot)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(prod_tot))"></span>
                                         </td>
                                         <td>
                                             <t t-set="supp_tot" t-value="inv_lit()+inv_kg()"/>
-                                            <span t-esc="'%.2f'%(supp_tot)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(supp_tot))"></span>
                                         </td>
                                         <td style="border-top:hidden"></td>
                                         <td>
                                             <t t-set="close_tot" t-value="close_lit+close_kg"/>
-                                            <span t-esc="'%.2f'%(close_tot)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(close_tot))"></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -205,22 +205,22 @@
                                         <td>M.T</td>
                                         <td>80 MT</td>
                                         <td>
-                                            <span t-esc="'%.2f'%(get_open_kg()/1000)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(get_open_kg()/1000))"></span>
                                             MT
                                         </td>   
                                         <td>
-                                            <span t-esc="'%.2f'%(get_kg()/1000)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(get_kg()/1000))"></span>
                                             MT
                                         </td>
                                         <td>
-                                            <span t-esc="'%.2f'%(inv_kg()/1000)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_kg()/1000))"></span>
                                             MT
                                         </td>
                                         <td>
-                                            <span t-esc="'%.2f'%(inv_sub())"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_sub()))"></span>
                                         </td>
                                         <td>
-                                            <span t-esc="'%.2f'%(close_kg/1000)"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(close_kg/1000))"></span>
                                             MT
                                         </td>
                                     </tr>

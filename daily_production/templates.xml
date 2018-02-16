@@ -32,8 +32,8 @@
                                 <field name="daily_id" nolabel='1'>
                                   <tree editable="bottom">
                                     <field name="product"/>
-                                    <field name="qty_kg"/>
                                     <field name="qty_lit"/>
+                                    <field name="qty_kg"/>
                                     <field name="rate"/>
                                     <field name="date"/>
                                   </tree>
@@ -47,8 +47,8 @@
                                 <field name="daily_consump" nolabel='1'>
                                   <tree editable="bottom">
                                     <field name="product"/>
-                                    <field name="qty_kg"/>
                                     <field name="qty_lit"/>
+                                    <field name="qty_kg"/>
                                     <field name="date"/>
                                   </tree>
                                 </field>

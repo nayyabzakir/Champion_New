@@ -236,7 +236,7 @@ class ProductReceipe(models.Model):
 
 	name   = fields.Char('Category')
 	wastage = fields.Integer('Wastage')
-	wpl = fields.Float('WPL')
+	wpl = fields.Float('WPL',digits=(19,3))
 	receipe_id = fields.One2many('product.receipe.tree','receipe_tree')
 
 

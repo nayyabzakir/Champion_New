@@ -56,9 +56,13 @@ class DailyFormTree(models.Model):
 
 	@api.onchange('qty_kg','qty_lit')
 	def get_wpl(self):
+		new = 0
 		if self.product:
-			# self.qty_lit = self.qty_kg * self.product.product_receipe.wpl
-			self.qty_lit = self.qty_kg * self.product.product_receipe.wpl
+			if self.product.attribute_value_ids:
+				for x in self.product.attribute_value_ids:
+					if x.attribute_id.name == 'Size':
+						new = float(x.attribute_id.value_ids.name)
+			self.qty_kg = self.qty_lit * self.product.product_receipe.wpl * new
 
 
 class DailyConsumeTree(models.Model):
