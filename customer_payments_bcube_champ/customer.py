@@ -40,15 +40,16 @@ class CustomerPayment(models.Model):
 			new_record.number = self.env['ir.sequence'].next_by_code('customer.payment.bcube')
 		else:
 			new_record.number = self.env['ir.sequence'].next_by_code('supplier.payment.bcube')
-		withold = self.env['tax.withold'].search([])
-		create_tax_withholding = withold.create({
-				'supplier' : new_record.partner_id.name,
-				'date': new_record.date,
-				'name': new_record.name,
-				'amount':new_record.amount ,
-				'tax': new_record.t_total,
-				'ref_no': new_record.number,
-				})
+			withold = self.env['tax.withold'].search([])
+			for x in new_record.tax_link:
+				create_tax_withholding = withold.create({
+						'supplier' : x.payment_link.partner_id.id,
+						'date': x.payment_link.date,
+						'tax_name': x.name,
+						'amount':x.payment_link.amount,
+						'tax': x.amount,
+						'ref_no': x.payment_link.number,
+						})
 
 		return new_record
 
@@ -207,7 +208,7 @@ class CustomerPayment(models.Model):
 		self.t_total = 0.0
 		for x in self.tax_link:
 			self.t_total = x.amount + self.t_total
-		self.t_total                
+		self.t_total              
 
 
 	

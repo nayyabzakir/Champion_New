@@ -9,6 +9,7 @@
 			<form string="Summary">
 				<header>
 	            	<button name="epay" string="ePayment" type="object" class="oe_highlight"/>
+	            	<field name="state" widget="statusbar" statusbar_visible="unpaid,paid" clickable="True"/>
 	            </header>
 				<sheet>
 					<group name="top">
@@ -130,5 +131,63 @@
 	view_mode="tree,form" />
 
 	<menuitem id="menu_tax_withold" name="Tax Withholding" parent="account.menu_finance_receivables" action="action_tax_withold" sequence="8"/>
+
+	<record id="view_form_challan" model="ir.ui.view"> 
+		<field name="name">view_form_challan</field> 
+		<field name="model">challan.withold</field> 
+		<field name="type">form</field> 
+			<field name="arch" type="xml">
+			<form string="Summary">
+				<header>
+	            	<button name="generate" string="Generate" type="object" class="oe_highlight"/>
+	            	<button name="generate_report" string="XL Report" type="object" class="oe_highlight"/>
+	            	<field name="state" widget="statusbar" statusbar_visible="draft,validate" />
+	            </header>
+				<sheet>
+					<group name="top">
+						<group >
+							<field name="date_from"/>
+							<field name="pay_date"/>
+						</group>
+						<group>
+							<field name="date_to"/>
+							<field name="challan_no"/>
+						</group>/
+					</group>
+					<field name="challan_id" nolabel='1'>
+                        <tree editable="bottom">                                   
+                            <field name="supplier"/>
+                            <field name="date"/>
+                            <field name="tax_name"/>
+                            <field name="amount"/>
+                            <field name="tax"/>
+                            <field name="withold" invisible="1"/>
+
+                        </tree>
+                    </field>
+				</sheet>
+			</form> 
+		</field> 
+	</record>
+
+	<record id="view_tree_challan" model="ir.ui.view"> 
+		<field name="name">view_tree_challan</field> 
+		<field name="model">challan.withold</field> 
+		<field name="type">tree</field> 
+		<field name="arch" type="xml"> 
+			<tree> 
+				<field name="date_from"/>
+				<field name="date_to"/>
+				<field name="challan_no"/>
+			</tree> 
+		</field> 
+	</record>
+
+	<act_window id="action_tax_challan" 
+	name="Challan" 
+	res_model="challan.withold" 
+	view_mode="tree,form" />
+
+	<menuitem id="menu_tax_challan" name="Challan" parent="account.menu_finance_receivables" action="action_tax_challan" sequence="9"/>
 
 </odoo>

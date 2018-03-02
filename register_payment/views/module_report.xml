@@ -113,6 +113,10 @@
                                             <th>8</th>
                                         </tr>
 
+                                        <t t-set="q_total" t-value="0"/>
+                                        <t t-set="ex_total" t-value="0"/>
+                                        <t t-set="sal_total" t-value="0"/>
+                                        <t t-set="val_total" t-value="0"/>
                                         <t t-foreach="docs" t-as="data">
 
                                             <tr>
@@ -140,6 +144,8 @@
                                                 </td>
                                                 <td>
                                                     <span t-esc="data.quantity"></span>
+                                                    <t t-set="q_total" t-value="q_total+data.quantity"/>
+
                                                     
                                                 </td>
                                                 <td>
@@ -147,16 +153,40 @@
                                                 </td>
                                                 <td>
                                                     <span t-esc="'{:0,}'.format(int(float(data.price_subtotal)))"></span>
+                                                    <t t-set="ex_total" t-value="ex_total+data.price_subtotal"/>
+
                                                 </td>
                                                 <td>
                                                     <span t-esc="'{:0,}'.format(int(float(data.invoice_id.tax_line_ids.amount)))"></span>
+                                                    <t t-set="sal_total" t-value="sal_total+data.invoice_id.tax_line_ids.amount"/>
+
                                                 </td>
                                                 <td>
                                                     <span t-esc="'{:0,}'.format(int(float(data.amount_incl_tax)))"></span>
+                                                    <t t-set="val_total" t-value="val_total+data.amount_incl_tax"/>
+
                                                 </td>
 
                                             </tr>
                                         </t>
+                                            <tr>
+                                                <td colspan="6" style="font-weight:bold">Total</td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(q_total)))"></span>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(ex_total)))"></span>
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(sal_total)))"></span>
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(val_total)))"></span>
+                                                </td>
+                                            </tr>
                                             
                                     </table>
 

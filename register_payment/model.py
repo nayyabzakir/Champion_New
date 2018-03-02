@@ -44,16 +44,22 @@ class SampleDevelopmentReport(models.AbstractModel):
         date_from = record_wizard.date_from
         date_to = record_wizard.date_to
 
+        enteries = []
         records = self.env['account.invoice.line'].search([('invoice_id.type','=','in_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to)])
+        for x in records:
+            enteries.append(x)
 
-      
+        enteries.sort(key=lambda x: x.invoice_id.date_invoice)
+
+
+
         count = 1
         
         docargs = {
         
             'doc_ids': docids,
             'doc_model': 'account.invoice',
-            'docs': records,
+            'docs': enteries,
             'date':date,
             'count':count,
 

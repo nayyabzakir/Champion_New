@@ -14,7 +14,7 @@
                         <style>
         
                             h2 {
-                                text-align: center;
+                                text-align: left;
                             }
                             .main-data {
                                 width: 100%;
@@ -63,50 +63,81 @@
                                 <table width="100%">
                                     <tr>
                                         <th></th>
-                                        <th colspan="2">31. 10 .17</th>
-                                        <th colspan="2">31. 11 .17</th>
+                                        <th colspan="2">
+                                            <span t-esc="time.strftime('%d-%m-%Y',time.strptime(prev,'%Y-%m-%d'))"></span>
+                                        </th>
+                                        <th></th>
+                                        <th colspan="2">
+                                            <span t-esc="time.strftime('%d-%m-%Y',time.strptime(date,'%Y-%m-%d'))"></span>
+                                        </th>
                                         <th><u>Diff Litre</u></th>
                                     </tr>
                                     <tr>
                                         <th></th>
                                         <th><u>Kg</u></th>
                                         <th><u>Litre</u></th>
+                                        <th>-</th>
                                         <th><u>Kg</u></th>
                                         <th><u>Litre</u></th>
                                         <th></th>
                                     </tr>
+
+                                <t t-set="curr_lit" t-value="0"/>
+                                <t t-set="curr_kg" t-value="0"/>
+                                <t t-set="lst_kg" t-value="0"/>
+                                <t t-set="lst_lit" t-value="0"/>
+                                <t t-set="diff_lit" t-value="0"/>
+                                <t t-foreach="parent_category" t-as="data">
+
                                     <tr>
-                                        <td><b>Car Paint</b></td>
-                                        <td class="border">49368.20</td>
-                                        <td class="border">53513.02</td>
-                                        <td class="border">49510.99</td>
-                                        <td class="border">53764.40</td>
-                                        <td>151.38</td>
+                                        <td><b>
+                                            <span t-esc="data.name"></span>
+                                        </b></td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(last_kg(data.id)))"></span>
+                                            <t t-set="lst_kg" t-value="lst_kg+last_kg(data.id)"/>
+                                        </td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(last_lit(data.id)))"></span>
+                                            <t t-set="lst_lit" t-value="lst_lit+last_lit(data.id)"/>
+                                        </td>
+                                        <td></td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(month_kg(data.id)))"></span>
+                                            <t t-set="curr_kg" t-value="curr_kg+month_kg(data.id)"/>
+                                        </td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(month_lit(data.id)))"></span>
+                                            <t t-set="curr_lit" t-value="curr_lit+month_lit(data.id)"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(month_lit(data.id)-last_lit(data.id)))"></span>
+                                            <t t-set="diff_lit" t-value="diff_lit+month_lit(data.id)-last_lit(data.id)"/>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td><b>Ind. Finishe</b></td>
-                                        <td class="border">49368.20</td>
-                                        <td class="border">53513.02</td>
-                                        <td class="border">49510.99</td>
-                                        <td class="border">53764.40</td>
-                                        <td>151.38</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Decorative</b></td>
-                                        <td class="border">49368.20</td>
-                                        <td class="border">53513.02</td>
-                                        <td class="border">49510.99</td>
-                                        <td class="border">53764.40</td>
-                                        <td>151.38</td>
-                                    </tr>
+
+                                </t>
+
                                     <tr>
                                         <td></td>
-                                        <td class="border"><b>49368.20</b></td>
-                                        <td class="border"><b>53513.02</b></td>
-                                        <td class="border"><b>49510.99</b></td>
-                                        <td class="border"><b>53764.40</b></td>
-                                        <td class="border"><b>151.38</b></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(lst_kg))"></span>
+                                        </b></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(lst_lit))"></span>
+                                        </b></td>
+                                        <td></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(curr_kg))"></span>
+                                        </b></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(curr_lit))"></span>
+                                        </b></td>
+                                        <td style="border-top:1px solid;border-bottom:1px solid"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(diff_lit))"></span>
+                                        </b></td>
                                     </tr>
+
                                 </table>
                                 <hr width="100%" style="border-top:1px solid"></hr>
                                 <table width="100%">

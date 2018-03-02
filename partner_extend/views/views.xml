@@ -9,11 +9,14 @@
               <field name="tax_payment" widget="many2many_tags"/>
               <field name="buyer_type" />
             </xpath>
+            
+            <xpath expr="//field[@name ='property_account_position_id']" position="after">
+                <field name="filer_type"/>
+            </xpath>
 
         </field> 
     </record>
-
-    
+   
     
   </data>
 </odoo>

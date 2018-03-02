@@ -19,13 +19,22 @@
 #
 ##############################################################################
 from openerp import models, fields, api
+from datetime import timedelta,datetime,date
+from dateutil.relativedelta import relativedelta
 
 
 class RegionWiseDetail(models.Model):
     _name = "finished.goods"
 
-    date_from = fields.Date("Date From",required=True)
-    date_to = fields.Date("Date To",required=True)
+    date = fields.Date("Date",required=True)
+    prev = fields.Date("Date")
+
+    @api.onchange('date')
+    def select_date(self):
+        if self.date:
+            start_date = datetime.strptime(self.date,"%Y-%m-%d")
+            self.prev = start_date - relativedelta(months=1)
+
 
 class regionWiseDetail(models.Model):
     _inherit = "daily.production"    

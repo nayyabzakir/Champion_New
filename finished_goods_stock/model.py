@@ -41,12 +41,61 @@ class SampleDevelopmentReport(models.AbstractModel):
 
         record_wizard_del = self.env['finished.goods'].search([('id','!=',emp_list_max)])
         record_wizard_del.unlink()
-        date_from = record_wizard.date_from
-        date_to = record_wizard.date_to
+        date = record_wizard.date
+        prev = record_wizard.prev
+
+
+        
+        parent_category = []
+        category = self.env['product.category'].search([('finish_good','=',True)])
+        for x in category:
+            if x.parent_id not in parent_category:
+                parent_category.append(x.parent_id)
+
+
+        def month_lit(attr):
+            current_month = str(date[:7])
+            value = 0
+            daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id.parent_id','=',attr)])
+            for y in daily:
+                if str(y.date[:7]) == current_month:
+                    value = value + y.qty_lit
+
+            return value
+
+        def last_lit(attr):
+            last_month = str(prev[:7])
+            value = 0
+            daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id.parent_id','=',attr)])
+            for y in daily:
+                if str(y.date[:7]) == last_month:
+                    value = value + y.qty_lit
+
+            return value
+
+        def month_kg(attr):
+            current_month = str(date[:7])
+            value = 0
+            daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id.parent_id','=',attr)])
+            for y in daily:
+                if str(y.date[:7]) == current_month:
+                    value = value + y.qty_kg
+
+            return value
+
+
+        def last_kg(attr):
+            last_month = str(prev[:7])
+            value = 0
+            daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id.parent_id','=',attr)])
+            for y in daily:
+                if str(y.date[:7]) == last_month:
+                    value = value + y.qty_kg
+
+            return value
+
 
         category = self.env['product.category'].search([('finish_good','=',True)])
-
-
 
         sizes = []
         def get_size(attr):
@@ -54,13 +103,14 @@ class SampleDevelopmentReport(models.AbstractModel):
             prod_temp = self.env['product.template'].search([('categ_id.finish_good','=',True),('categ_id','=',attr)])
             for x in prod_temp:
                 for y in x.attribute_line_ids:
-                    if y.attribute_id.name == 'size':
+                    if y.attribute_id.name == 'Size':
                         if y.attribute_id.value_ids.name not in sizes:
                             sizes.append(y.attribute_id.value_ids.name)
 
 
 
         def get_value(attr,num):
+            current_month = str(date[:7])
             value = 0
             products = []
             prod_temp = self.env['product.template'].search([('categ_id.finish_good','=',True),('categ_id','=',attr)])
@@ -73,10 +123,10 @@ class SampleDevelopmentReport(models.AbstractModel):
             for z in products:
                 daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id','=',attr),('product.product_tmpl_id','=',z.id)])
                 for y in daily:
-                    value = value + y.qty_lit
+                    if str(y.date[:7]) == current_month:
+                        value = value + y.qty_lit
 
             return value
-
 
 
 
@@ -88,6 +138,13 @@ class SampleDevelopmentReport(models.AbstractModel):
             'sizes':sizes,
             'get_size':get_size,
             'get_value':get_value,
+            'parent_category':parent_category,
+            'month_lit':month_lit,
+            'month_kg':month_kg,
+            'last_lit':last_lit,
+            'last_kg':last_kg,
+            'date':date,
+            'prev':prev,
 
             }
 
