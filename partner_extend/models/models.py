@@ -11,4 +11,16 @@ class partner_champion(models.Model):
 		('Unregistered','Unregistered')
 		],string="Buyer Type")
    # filer_type   = fields.Selection([('filer', 'Filer'),('nonfiler', 'Non Filer')],string="Type")
-	filer_type = fields.Selection([('filer', 'Filer'), ('nonfiler', 'Non Filer')], string="Type")
+	filer_type = fields.Selection([('filer', 'Filer'), ('nonfiler', 'Non Filer')], string="Type", default='filer')
+
+class tax_champion(models.Model):
+	_inherit = 'account.tax'
+
+
+	payment_sec = fields.Char(string="Payment Section")
+
+
+class fiscal_champion(models.Model):
+	_inherit = 'account.fiscal.position'
+
+	nonfiler = fields.Boolean(string="Non Filer")

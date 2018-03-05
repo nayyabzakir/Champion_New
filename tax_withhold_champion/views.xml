@@ -22,6 +22,7 @@
 						<group>
 							<field name="tax"/>
 							<field name="tax_name"/>
+							<field name="payment_sec"/>
 							<field name="challan_no"/>
 							<field name="paid"/>
 						</group>/
@@ -159,6 +160,7 @@
                             <field name="supplier"/>
                             <field name="date"/>
                             <field name="tax_name"/>
+                            <field name="payment_sec"/>
                             <field name="amount"/>
                             <field name="tax"/>
                             <field name="withold" invisible="1"/>

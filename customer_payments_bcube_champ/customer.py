@@ -46,6 +46,7 @@ class CustomerPayment(models.Model):
 						'supplier' : x.payment_link.partner_id.id,
 						'date': x.payment_link.date,
 						'tax_name': x.name,
+						'payment_sec': x.payment_sec,
 						'amount':x.payment_link.amount,
 						'tax': x.amount,
 						'ref_no': x.payment_link.number,
@@ -113,7 +114,19 @@ class CustomerPayment(models.Model):
 			
 			self.customer_tree = inv
 			inv=[]
-												
+
+			if self.partner_id.filer_type == 'filer':
+				self.taxes = False
+				self.taxes = self.partner_id.tax_payment
+			if self.partner_id.filer_type == 'nonfiler':
+				self.taxes = False
+				rec = self.env['account.fiscal.position'].search([('nonfiler','=',True)])
+				for x in rec.tax_ids:
+					for y in self.partner_id.tax_payment:
+						if x.tax_src_id.id == y.id:
+							print x.tax_dest_id.name
+							self.taxes = self.taxes + x.tax_dest_id
+
 							
 	@api.onchange('amount','e_amount')
 	def Amount(self):
@@ -150,7 +163,7 @@ class CustomerPayment(models.Model):
 											
 
 
-	@api.onchange('taxes')
+	@api.onchange('taxes','amount')
 	def onchange_taxes(self):
 
 		if self.amount>0:
@@ -192,6 +205,7 @@ class CustomerPayment(models.Model):
 			for x in self.taxes:
 				r.append({
 					'name':x.name,
+					'payment_sec':x.payment_sec,
 					'account_id':x.account_id.id,
 					'amount':(x.amount/100)*self.amount,
 					'payment_link':self.id,                   
@@ -419,6 +433,7 @@ class CustomerPaymentTree(models.Model):
 class Coustomer_Tax(models.Model):
 	_inherit = 'account.invoice.tax'
 
+	payment_sec = fields.Char(string="Payment Section")
 	payment_link = fields.Many2one('customer.payment.bcube')
 
 

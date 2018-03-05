@@ -74,6 +74,7 @@
               <tree editable="bottom">
                 
                 <field name="name"/>
+                <field name="payment_sec"/>
                 <field name="account_id"/>
                 <field name="amount"/>
                 
