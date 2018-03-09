@@ -235,7 +235,8 @@ class ChallanWitholdTree(models.Model):
 	@api.multi
 	def unlink(self):
 		for x in self:
-			x.withold.state = 'unpaid'
+			if x.withold:
+				x.withold.state = 'unpaid'
 		super(ChallanWitholdTree, self).unlink()
 
 		return True
